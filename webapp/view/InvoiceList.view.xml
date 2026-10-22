@@ -4,100 +4,102 @@
   xmlns:core="sap.ui.core"
   xmlns:mvc="sap.ui.core.mvc">
   <Panel accessibleRole="Region">
-  <headerToolbar>
-    <Toolbar>
-    <Title text="{i18n>invoiceListTitle}"/>
-    <ToolbarSpacer/>
-    <SearchField
-      width="30%"
-      search=".onFilterInvoices"/>
-    <ComboBox
-      id="statusComboBox"
-      placeholder="Filter by Status"
-      change=".onStatusFilter"
-      width="180px">
-      <core:Item key="All" text="All"/>
-      <core:Item key="In Progress" text="In Progress"/>
-      <core:Item key="New" text="New"/>
-      <core:Item key="Done" text="Done"/>
-    </ComboBox>
-    </Toolbar>
-  </headerToolbar>
-  <Table
-    id="invoiceList"
-    class="sapUiResponsiveMargin"
-    width="auto"
-    items="{
-    path: 'invoice>/Invoices',
-    sorter: {
-      path: 'ShipperName',
-      group: true
-      }
-    }">
-    <columns>
-      <Column
-      hAlign="End"
-      minScreenWidth="Small"
-      demandPopin="true"
-      width="5em">
-      <Text text="{i18n>columnQuantity}"/>
-      </Column>
-      <Column>
-      <Text text="{i18n>columnName}"/>
-      </Column>
-      <Column
-      minScreenWidth="Small"
-      demandPopin="true">
-      <Text text="{i18n>columnStatus}"/>
-      </Column>
-      <Column
-      minScreenWidth="Tablet"
-      demandPopin="false">
-      <Text text="{i18n>columnSupplier}"/>
-      </Column>
-      <Column hAlign="End">
-      <Text text="{i18n>columnPrice}"/>
-      </Column>
-    </columns>
-    <items>
-      <ColumnListItem
-      type="Navigation"
-      press=".onPress">
-      <cells>
-        <ObjectNumber
-        number="{invoice>Quantity}"
-        emphasized="false"/>
-        <ObjectIdentifier
-        title="{invoice>ProductName}"/>
-        <Text
-        core:require= "{
-          Formatter: 'ui5/tutorial/walkthrough/model/formatter'
-        }"
-        text="{
-          path: 'invoice>Status',
-          formatter: 'Formatter.statusText.bind($controller)'
-        }"/>
-        <Text
-        text="{invoice>ShipperName}"/>
-        <ObjectNumber
-        core:require="{
-          Currency: 'sap/ui/model/type/Currency'
-        }"
-        number="{
-          parts: [
-          'invoice>ExtendedPrice',
-          'view>/currency'
-          ],
-          type: 'Currency',
-          formatOptions: {
-          showMeasure: false
-          }
-        }"
-        unit="{view>/currency}"
-        state="{= ${invoice>ExtendedPrice} > 50 ? 'Error' : 'Success' }"/>
-      </cells>
-      </ColumnListItem>
-    </items>
-  </Table>
+    <headerToolbar>
+      <Toolbar>
+        <Title text="{i18n>invoiceListTitle}"/>
+        <ToolbarSpacer/>
+        <SearchField
+          id="searchField"
+          width="50%"
+          search=".onFilterInvoices"/>
+        <ComboBox
+          id="statusFilter"
+          width="12rem"
+          selectedKey=""
+          selectionChange=".onFilterInvoices"
+          change=".onFilterInvoices">
+          <core:Item key="" text="{i18n>statusAll}"/>
+          <core:Item key="A" text="{i18n>invoiceStatusA}"/>
+          <core:Item key="B" text="{i18n>invoiceStatusB}"/>
+          <core:Item key="C" text="{i18n>invoiceStatusC}"/>
+        </ComboBox>
+      </Toolbar>
+    </headerToolbar>
+    <Table
+      id="invoiceList"
+      class="sapUiResponsiveMargin"
+      width="auto"
+      items="{
+        path: 'invoice>/Invoices',
+        sorter: {
+          path: 'ShipperName',
+          group: true
+        }
+      }">
+      <columns>
+        <Column
+          hAlign="End"
+          minScreenWidth="Small"
+          demandPopin="true"
+          width="5em">
+          <Text text="{i18n>columnQuantity}"/>
+        </Column>
+        <Column>
+          <Text text="{i18n>columnName}"/>
+        </Column>
+        <Column
+          minScreenWidth="Small"
+          demandPopin="true">
+          <Text text="{i18n>columnStatus}"/>
+        </Column>
+        <Column
+          minScreenWidth="Tablet"
+          demandPopin="false">
+          <Text text="{i18n>columnSupplier}"/>
+        </Column>
+        <Column hAlign="End">
+          <Text text="{i18n>columnPrice}"/>
+        </Column>
+      </columns>
+      <items>
+        <ColumnListItem
+          type="Navigation"
+          press=".onPress">
+          <cells>
+            <ObjectNumber
+              number="{invoice>Quantity}"
+              emphasized="false"/>
+            <ObjectIdentifier
+              title="{invoice>ProductName}"/>
+            <Text
+              core:require="{
+                Formatter: 'ui5/tutorial/walkthrough/model/formatter'
+              }"
+              text="{
+                path: 'invoice>Status',
+                formatter: 'Formatter.statusText.bind($controller)'
+              }"/>
+            <Text
+              text="{invoice>ShipperName}"/>
+            <ObjectNumber
+              core:require="{
+                Currency: 'sap/ui/model/type/Currency'
+              }"
+              number="{
+                parts: [
+                  'invoice>ExtendedPrice',
+                  'view>/currency'
+                ],
+                type: 'Currency',
+                formatOptions: {
+                  showMeasure: false
+                }
+              }"
+              unit="{view>/currency}"
+              state="{= ${invoice>ExtendedPrice} > 50 ? 'Error' : 'Success' }"/>
+          </cells>
+        </ColumnListItem>
+      </items>
+    </Table>
   </Panel>
 </mvc:View>
